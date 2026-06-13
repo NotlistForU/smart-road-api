@@ -1,0 +1,70 @@
+{
+  "Volkswagen": {
+    "Polo": {
+      "MPI": [
+        { "year": 2022, "tankCapacity": 52 },
+        { "year": 2023, "tankCapacity": 49 },
+        { "year": 2024, "tankCapacity": 49 },
+        { "year": 2025, "tankCapacity": 49 }
+      ],
+      "TSI": [
+        { "year": 2022, "tankCapacity": 52 },
+        { "year": 2023, "tankCapacity": 52 },
+        { "year": 2024, "tankCapacity": 52 },
+        { "year": 2025, "tankCapacity": 52 }
+      ],
+      "Highline": [
+        { "year": 2022, "tankCapacity": 52 },
+        { "year": 2023, "tankCapacity": 52 },
+        { "year": 2024, "tankCapacity": 52 },
+        { "year": 2025, "tankCapacity": 52 }
+      ]
+    },
+    "T-Cross": {
+      "Sense": [
+        { "year": 2023, "tankCapacity": 52 }
+      ],
+      "Comfortline": [
+        { "year": 2023, "tankCapacity": 52 },
+        { "year": 2024, "tankCapacity": 52 }
+      ]
+    }
+  },
+  "Chevrolet": {
+    "Onix": {
+      "LT": [
+        { "year": 2022, "tankCapacity": 44 },
+        { "year": 2023, "tankCapacity": 44 },
+        { "year": 2024, "tankCapacity": 44 },
+        { "year": 2025, "tankCapacity": 44 }
+      ],
+      "Premier": [
+        { "year": 2024, "tankCapacity": 44 }
+      ]
+    }
+  },
+  "Toyota": {
+    "Corolla": {
+      "2.0_Flex": [
+        { "year": 2022, "tankCapacity": 50 },
+        { "year": 2023, "tankCapacity": 50 },
+        { "year": 2024, "tankCapacity": 50 },
+        { "year": 2025, "tankCapacity": 50 }
+      ],
+      "1.8_Hybrid": [
+        { "year": 2022, "tankCapacity": 43 },
+        { "year": 2023, "tankCapacity": 43 },
+        { "year": 2024, "tankCapacity": 43 },
+        { "year": 2025, "tankCapacity": 43 }
+      ]
+    },
+    "Hilux": {
+      "2.8_Diesel": [
+        { "year": 2022, "tankCapacity": 80 },
+        { "year": 2023, "tankCapacity": 80 },
+        { "year": 2024, "tankCapacity": 80 },
+        { "year": 2025, "tankCapacity": 80 }
+      ]
+    }
+  }
+}
