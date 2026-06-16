@@ -35,6 +35,9 @@ public class FuelRecord extends AuditableEntity {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
 
+    @Column(name = "discount")
+    private BigDecimal discount;
+
     @Column(name = "kml")
     private Double kml;
 

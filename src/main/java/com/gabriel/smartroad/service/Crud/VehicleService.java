@@ -81,7 +81,7 @@ public class VehicleService {
     }
 
     public Page<ResponseDTO> findAllByUser(User user, Pageable pageable) {
-        return vehicleRepository.findByUserId(user.getId(), pageable)
+        return vehicleRepository.findByUserIdAndActiveTrue(user.getId(), pageable)
                 .map(this::toResponseDTO);
     }
 

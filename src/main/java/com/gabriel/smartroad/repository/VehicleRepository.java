@@ -17,6 +17,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     // Só precisaremos escrever algo se quisermos uma busca específica no futuro,
     // tipo: buscar todos os carros ativos de um usuário específico.
     Page<Vehicle> findByUserId(Long id, Pageable pageable);
+    Page<Vehicle> findByUserIdAndActiveTrue(Long id, Pageable pageable);
 
     Optional<Vehicle> findByIdAndUserId(Long id, Long userId);
 }

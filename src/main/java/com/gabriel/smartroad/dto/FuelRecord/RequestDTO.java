@@ -20,7 +20,6 @@ public record RequestDTO(
 
         @NotNull(message = "Price per liter is required") @Positive(message = "Price per liter must be greater than zero") BigDecimal pricePerLiter,
 
-        @NotNull(message = "Total price is required") @Positive(message = "Total price must be greater than zero") BigDecimal totalPrice
-
+        @PositiveOrZero BigDecimal discount
 ) {
 }

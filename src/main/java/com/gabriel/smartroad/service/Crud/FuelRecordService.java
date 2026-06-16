@@ -12,6 +12,8 @@ import com.gabriel.smartroad.repository.VehicleRepository;
 import com.gabriel.smartroad.repository.UserRepository;
 import com.gabriel.smartroad.service.Metrics.CalculatorService;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,15 @@ public class FuelRecordService {
         record.setMileageAtRefueling(dto.mileageAtRefueling());
         record.setLiters(dto.liters());
         record.setPricePerLiter(dto.pricePerLiter());
-        record.setTotalCost(dto.totalPrice());
+
+        BigDecimal discount = BigDecimal.ZERO;
+        if(dto.discount() != null) {
+             discount = dto.discount();
+        }
+        BigDecimal subTotal = dto.pricePerLiter().multiply(BigDecimal.valueOf(dto.liters()));
+        record.setDiscount(discount);
+        record.setTotalCost(subTotal.subtract(discount));
+
 
         Double calculatedKml = calculatorService.calculateKmL(vehicle, record);
         record.setKml(calculatedKml);
@@ -85,6 +95,22 @@ public class FuelRecordService {
             record.setMileageAtRefueling(dto.mileageAtRefueling());
         if (dto.liters() != null)
             record.setLiters(dto.liters());
+        if (dto.pricePerLiter() != null)
+            record.setPricePerLiter(dto.pricePerLiter());
+        if (dto.discount() != null) {
+            record.setDiscount(dto.discount());
+        }
+
+        BigDecimal discount =
+                record.getDiscount() != null
+                        ? record.getDiscount()
+                        : BigDecimal.ZERO;
+
+        BigDecimal subTotal =
+                record.getPricePerLiter()
+                        .multiply(BigDecimal.valueOf(record.getLiters()));
+
+        record.setTotalCost(subTotal.subtract(discount));
 
         Double newKml = calculatorService.calculateKmL(record.getVehicle(), record);
         record.setKml(newKml);
@@ -107,7 +133,9 @@ public class FuelRecordService {
                 record.getMileageAtRefueling(),
                 record.getLiters(),
                 record.getPricePerLiter(),
-                record.getTotalCost());
+                record.getTotalCost(),
+                record.getDiscount(),
+                record.getKml());
     }
 
     private FuelRecord getFuelRecordSafe(Long recordId, User user) {

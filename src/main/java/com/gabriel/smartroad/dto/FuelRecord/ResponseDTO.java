@@ -15,7 +15,9 @@ public record ResponseDTO(
         Integer mileageAtRefueling,
         Double liters,
         BigDecimal pricePerLiter,
-        BigDecimal totalCost
+        BigDecimal totalCost,
+        BigDecimal discount,
+        Double kml
 
 ) {
 }
