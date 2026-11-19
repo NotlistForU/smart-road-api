@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import calamadevs.dto.PublicDashboard.ResponsePublicDashboard.MaintenanceMetrics;
+
 /// - SupplyMetrics
 /// - MaintenanceMetrics
 public record ResponsePublicDashboard(
@@ -17,7 +19,12 @@ public record ResponsePublicDashboard(
                         BigDecimal kmPerMj,
                         BigDecimal key,
                         BigDecimal mjPerLiter,
-                        BigDecimal mjPerKwh) {
+                        BigDecimal mjPerKwh,
+                        Double kilometersTraveled,
+                        Double liters,
+                        Double kwh,
+                        String fuelType,
+                        BigDecimal totalCost) {
         }
 
         public record MaintenanceMetrics(

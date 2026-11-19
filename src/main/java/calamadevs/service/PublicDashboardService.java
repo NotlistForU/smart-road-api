@@ -107,7 +107,12 @@ public class PublicDashboardService {
                     kmPerMj,
                     key,
                     effectiveMjPerLiter,
-                    SupplyRecordService.MJ_PER_KWH));
+                    SupplyRecordService.MJ_PER_KWH,
+                    km,
+                    fuel != null ? fuel.getLiters() : null,
+                    recharge != null ? recharge.getKwh() : null,
+                    fuel != null && fuel.getFuelType() != null ? fuel.getFuelType().name() : null,
+                    supply.getTotalCost()));
         }
 
         LocalDateTime fiveYearsAgo = LocalDateTime.now().minusYears(5);
