@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import calamadevs.dto.PublicDashboard.ResponsePublicDashboard.MaintenanceMetrics;
-
 /// - SupplyMetrics
 /// - MaintenanceMetrics
 public record ResponsePublicDashboard(
@@ -36,6 +34,7 @@ public record ResponsePublicDashboard(
 
         public record MaintenanceItemMetrics(
                         String tagName,
-                        BigDecimal cost) {
+                        BigDecimal cost,
+                        Double intervalKm) {
         }
 }

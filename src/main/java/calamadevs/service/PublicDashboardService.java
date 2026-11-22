@@ -1,5 +1,6 @@
 package calamadevs.service;
 
+import calamadevs.domain.Maintenance.MaintenanceRecord;
 import calamadevs.domain.Supply.FuelRecord;
 import calamadevs.domain.Supply.FuelType;
 import calamadevs.domain.Supply.RechargeRecord;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,10 +118,29 @@ public class PublicDashboardService {
         }
 
         LocalDateTime fiveYearsAgo = LocalDateTime.now().minusYears(5);
-        List<ResponsePublicDashboard.MaintenanceMetrics> maintenanceMetrics = maintenanceRecordRepository
+        List<MaintenanceRecord> records = maintenanceRecordRepository
                 .findByVersionIdSince(dto.versionId(), fiveYearsAgo)
                 .stream()
                 .filter(m -> m.getMaintenanceMileage() != null && m.getMaintenanceMileage() > 0)
+                .toList();
+
+        // km desde a última vez que o MESMO item foi feito no MESMO veículo
+        Map<String, Double> intervalByRecordItem = new HashMap<>();
+        Map<String, Double> lastKmByVehicleItem = new HashMap<>();
+        records.stream()
+                .sorted(Comparator.comparing(MaintenanceRecord::getMaintenanceMileage))
+                .forEach(m -> m.getItems().forEach(ri -> {
+                    String name = ri.getItem().getName();
+                    String vehicleKey = m.getVehicle().getId() + "|" + name;
+                    Double prev = lastKmByVehicleItem.get(vehicleKey);
+                    if (prev != null && m.getMaintenanceMileage() > prev) {
+                        intervalByRecordItem.put(m.getId() + "|" + name,
+                                m.getMaintenanceMileage() - prev);
+                    }
+                    lastKmByVehicleItem.put(vehicleKey, m.getMaintenanceMileage());
+                }));
+
+        List<ResponsePublicDashboard.MaintenanceMetrics> maintenanceMetrics = records.stream()
                 .map(m -> new ResponsePublicDashboard.MaintenanceMetrics(
                         m.getMaintenanceMileage(),
                         m.getTotalCost(),
@@ -127,10 +148,10 @@ public class PublicDashboardService {
                         m.getItems().stream()
                                 .map(ri -> new ResponsePublicDashboard.MaintenanceItemMetrics(
                                         ri.getItem().getName(),
-                                        ri.getCost()))
+                                        ri.getCost(),
+                                        intervalByRecordItem.get(m.getId() + "|" + ri.getItem().getName())))
                                 .toList()))
                 .toList();
-
         return new ResponsePublicDashboard(supplyMetrics, maintenanceMetrics);
     }
 
