@@ -68,6 +68,7 @@ public class MaintenanceService {
         applyItems(record, dto.items());
 
         MaintenanceRecord saved = maintenanceRecordRepository.save(record);
+        syncVehicleMileage(vehicle, dto.maintenanceMileage());
         log.info("Maintenance created with id: {} for vehicle id: {}", saved.getId(), vehicle.getId());
         return new ResponseMaintenanceRecord(saved);
     }
@@ -86,6 +87,7 @@ public class MaintenanceService {
         applyItems(record, dto.items());
 
         MaintenanceRecord updated = maintenanceRecordRepository.save(record);
+        syncVehicleMileage(record.getVehicle(), dto.maintenanceMileage());
         log.info("Maintenance updated with id: {}", updated.getId());
         return new ResponseMaintenanceRecord(updated);
     }
@@ -95,6 +97,15 @@ public class MaintenanceService {
         MaintenanceRecord maintenanceRecord = getMaintenanceOrThrow(id, user);
         maintenanceRecordRepository.delete(maintenanceRecord);
         log.info("Maintenance deleted with id: {}", id);
+    }
+
+    private void syncVehicleMileage(Vehicle vehicle, Double maintenanceMileage) {
+        if (maintenanceMileage == null)
+            return;
+        double current = vehicle.getMileage() != null ? vehicle.getMileage() : 0.0;
+        if (maintenanceMileage > current) {
+            vehicleService.updateMileage(vehicle, maintenanceMileage);
+        }
     }
 
     private void applyItems(MaintenanceRecord record, List<RequestMaintenanceRecordItem> itemDtos) {
